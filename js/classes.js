@@ -84,8 +84,9 @@ class object {
         }).bind(this);
         this.svgElement.addEventListener("mousedown", select);
         this.svgElement.addEventListener("mouseout", function () {
-            isSomeObjectSelected = false;
-        });
+            if (!this.isMoving)
+                isSomeObjectSelected = false;
+        }.bind(this));
         this.svgElement.addEventListener("mouseover", function () {
             if (wasPressed == "cursor") {
                 isSomeObjectSelected = true;
@@ -287,6 +288,7 @@ class object {
     getNewCoords() {} //преобразование координат ключевых точек при повороте фигуры
     complete(isSizeNotZero = this.svgElement.getBoundingClientRect().width * this.svgElement.getBoundingClientRect().height > 0) {
         this.updateFrameAndPoints();
+        //this.hideFrameAndPoints();
         this.removeHotKeys();
         document.onmousemove = null;
         document.onmouseup = null;
